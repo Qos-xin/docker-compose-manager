@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docker Compose 管理系统</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div id="app">
+        <!-- 登录页面 -->
+        <div id="login-page" class="page">
+            <div class="login-form">
+                <div class="login-logo">
+                    <img src="img/docker-logo.svg" alt="Docker Compose Manager">
+                </div>
+                <h1>Docker Compose 管理系统</h1>
+                <div id="login-error" class="alert alert-error" style="display: none;"></div>
+                <div class="form-group">
+                    <label for="username">用户名</label>
+                    <input type="text" id="username" name="username" placeholder="请输入用户名" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">密码</label>
+                    <input type="password" id="password" name="password" placeholder="请输入密码" required>
+                </div>
+                <button id="login-btn" class="btn btn-primary">登录</button>
+            </div>
+        </div>
+
+        <!-- 控制面板页面 -->
+        <div id="dashboard-page" class="page" style="display: none;">
+            <header>
+                <h1>Docker Compose 管理系统</h1>
+                <div class="user-actions">
+                    <button id="logout-btn" class="btn btn-danger">退出登录</button>
+                </div>
+            </header>
+            
+            <div id="alert-container"></div>
+            
+            <!-- 高级搜索表单 -->
+            <div class="search-container">
+                <h3 class="search-title">高级搜索</h3>
+                <form id="search-form" class="advanced-search-form">
+                    <div class="search-fields">
+                        <div class="search-field">
+                            <label for="name-search">Docker Compose 项目:</label>
+                            <input 
+                                type="text" 
+                                id="name-search"
+                                name="nameSearch" 
+                                placeholder="搜索项目名..." 
+                                class="search-input"
+                            >
+                            <small class="search-field-hint">匹配 Docker Compose 项目名称或目录</small>
+                        </div>
+                        
+                        <div class="search-field">
+                            <label for="image-search">镜像名称:</label>
+                            <input 
+                                type="text" 
+                                id="image-search"
+                                name="imageSearch" 
+                                placeholder="搜索镜像..." 
+                                class="search-input"
+                            >
+                        </div>
+                        
+                        <div class="search-field">
+                            <label for="version-search">版本号:</label>
+                            <input 
+                                type="text" 
+                                id="version-search"
+                                name="versionSearch" 
+                                placeholder="搜索版本..." 
+                                class="search-input"
+                            >
+                        </div>
+                        
+                        <div class="search-field">
+                            <label for="status-search">状态:</label>
+                            <select 
+                                id="status-search"
+                                name="statusSearch" 
+                                class="search-select"
+                            >
+                                <option value="">所有状态</option>
+                                <option value="运行中">运行中</option>
+                                <option value="已停止">已停止</option>
+                                <option value="未配置">未配置</option>
+                                <option value="错误">错误</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="search-buttons">
+                        <button type="submit" class="btn btn-primary search-btn">搜索</button>
+                        <button type="button" id="clear-search-btn" class="btn btn-secondary clear-btn">清除</button>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="services-container">
+                <h2 id="services-title">服务列表</h2>
+                <div id="services-list"></div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/app.js"></script>
+</body>
+</html> 

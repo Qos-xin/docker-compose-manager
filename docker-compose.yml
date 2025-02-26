@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  docker-manager:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: docker-compose-manager
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - docker-compose-dirs:/docker-compose-files
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - AppSettings__DockerComposeBasePath=/docker-compose-files
+      - AppSettings__Username=${ADMIN_USERNAME:-admin}
+      - AppSettings__Password=${ADMIN_PASSWORD:-password}
+      - AppSettings__Secret=${JWT_SECRET:-your-secret-key-for-jwt-token-generation}
+
+volumes:
+  docker-compose-dirs:
+    driver_opts:
+      type: none
+      device: ${DOCKER_COMPOSE_BASE_DIR%%,*}  # 使用第一个目录作为默认挂载点
+      o: bind
