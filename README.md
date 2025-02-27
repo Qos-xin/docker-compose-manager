@@ -1,5 +1,10 @@
 # Docker Compose 管理系统
 
+[![Docker 镜像构建与发布](https://github.com/qos-xin/docker-compose-manager/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/qos-xin/docker-compose-manager/actions/workflows/docker-publish.yml)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/qos-xin/docker-compose-manager)](https://github.com/qos-xin/docker-compose-manager/releases)
+[![Docker Image Size](https://img.shields.io/docker/image-size/ghcr.io/qos-xin/docker-compose-manager/latest)](https://github.com/qos-xin/docker-compose-manager/pkgs/container/docker-compose-manager)
+[![License](https://img.shields.io/github/license/qos-xin/docker-compose-manager)](https://github.com/qos-xin/docker-compose-manager/blob/main/LICENSE)
+
 这是一个基于 .NET 8 的 Docker Compose 管理系统，允许您通过 Web 界面管理多个 Docker Compose 项目。
 
 ## 功能
@@ -147,3 +152,11 @@ docker build -t docker-compose-manager .
 - 更改默认的管理员用户名和密码。
 - 使用强密码和复杂的 JWT 密钥。
 - 限制对管理系统的网络访问，考虑使用反向代理和 HTTPS。
+
+## 贡献
+
+欢迎提交 Pull Request 或创建 Issue 来改进这个项目。
+
+## 许可证
+
+本项目采用 MIT 许可证。详见 [LICENSE](LICENSE) 文件。
