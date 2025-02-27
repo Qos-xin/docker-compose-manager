@@ -33,6 +33,55 @@ chmod +x deploy.sh
 
 4. 部署完成后，访问 http://localhost:8080 使用系统。
 
+### 使用 GitHub 容器仓库镜像
+
+您也可以直接使用 GitHub 容器仓库中的预构建镜像：
+
+```bash
+# 创建 .env 文件
+cat > .env << EOF
+# Docker Compose 文件的基础目录（多个目录用逗号分隔）
+DOCKER_COMPOSE_BASE_DIR=/path/to/docker/compose/files
+# 管理员凭据
+ADMIN_USERNAME=admin
+ADMIN_PASSWORD=your-secure-password
+# JWT 密钥
+JWT_SECRET=$(openssl rand -base64 32)
+EOF
+
+# 创建 docker-compose.yml 文件
+cat > docker-compose.yml << EOF
+version: '3.8'
+
+services:
+  docker-manager:
+    image: ghcr.io/qos-xin/docker-compose-manager:latest
+    container_name: docker-compose-manager
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - docker-compose-dirs:/docker-compose-files
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - AppSettings__DockerComposeBasePath=/docker-compose-files
+      - AppSettings__Username=\${ADMIN_USERNAME:-admin}
+      - AppSettings__Password=\${ADMIN_PASSWORD:-password}
+      - AppSettings__Secret=\${JWT_SECRET:-your-secret-key-for-jwt-token-generation}
+
+volumes:
+  docker-compose-dirs:
+    driver_opts:
+      type: none
+      device: \${DOCKER_COMPOSE_BASE_DIR%%,*}
+      o: bind
+EOF
+
+# 启动服务
+docker-compose up -d
+```
+
 ### 手动配置
 
 1. 编辑 .env 文件，设置以下环境变量：
@@ -66,6 +115,25 @@ docker-compose up -d
    - 停止：停止服务
    - 启动：启动服务
 5. 点击刷新按钮更新服务状态。
+
+## 开发与构建
+
+### GitHub Actions
+
+本项目使用 GitHub Actions 自动构建和发布 Docker 镜像。每次推送到主分支或创建新标签时，都会触发构建流程：
+
+- 推送到主分支：构建并发布带有 `latest` 标签的镜像
+- 创建版本标签（如 `v1.0.0`）：构建并发布带有版本号的镜像
+
+镜像发布到 GitHub 容器仓库 (ghcr.io)，可以通过 `ghcr.io/用户名/docker-compose-manager:标签` 访问。
+
+### 手动构建
+
+如果您想手动构建镜像，可以使用以下命令：
+
+```bash
+docker build -t docker-compose-manager .
+```
 
 ## 注意事项
 

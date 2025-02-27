@@ -1,0 +1,31 @@
+# Git
+.git
+.gitignore
+.github
+
+# Docker
+.docker
+.dockerignore
+docker-compose.yml
+docker-compose.*.yml
+
+# 开发环境文件
+.env
+.env.*
+deploy.sh
+README.md
+LICENSE
+
+# 构建输出
+**/bin
+**/obj
+**/out
+
+# 依赖目录
+**/node_modules
+
+# 其他
+**/.DS_Store
+**/.vs
+**/.vscode
+**/*.*proj.user 
